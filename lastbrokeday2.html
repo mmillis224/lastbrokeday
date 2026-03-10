@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Last Broke Day — Your turning point starts here</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #E85D04;
+    --orange-dark: #C44D00;
+    --orange-pale: #FFF3E0;
+    --black: #0D0D0D;
+    --ink: #1A1A1A;
+    --gray: #6B6B6B;
+    --light: #F5F2EE;
+    --white: #FDFCFB;
+    --rule: #E0DBD4;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── TICKER ── */
+  .ticker {
+    background: var(--orange);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    padding: 8px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-inner span { margin: 0 40px; }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    background: rgba(253,252,251,0.95);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 22px;
+    color: var(--black);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--orange); }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--orange) !important;
+    color: white !important;
+    padding: 10px 22px;
+    border-radius: 2px;
+    font-weight: 600 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--orange-dark) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 88vh;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-left {
+    padding: 80px 64px 80px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+  .hero-issue-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-issue-tag::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--orange);
+  }
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--black);
+    margin-bottom: 28px;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--orange);
+  }
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--gray);
+    line-height: 1.65;
+    max-width: 480px;
+    margin-bottom: 48px;
+  }
+  .hero-form {
+    display: flex;
+    gap: 0;
+    max-width: 460px;
+  }
+  .hero-form input {
+    flex: 1;
+    padding: 16px 20px;
+    border: 2px solid var(--ink);
+    border-right: none;
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 0;
+  }
+  .hero-form input:focus { border-color: var(--orange); }
+  .hero-form input::placeholder { color: #B0A99F; }
+  .hero-form button {
+    padding: 16px 28px;
+    background: var(--ink);
+    color: white;
+    border: 2px solid var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    border-radius: 0;
+    white-space: nowrap;
+  }
+  .hero-form button:hover {
+    background: var(--orange);
+    border-color: var(--orange);
+  }
+  .hero-trust {
+    margin-top: 16px;
+    font-size: 12px;
+    color: #A0968C;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-right {
+    background: var(--light);
+    padding: 80px 48px 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-right::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 320px;
+    color: var(--rule);
+    position: absolute;
+    top: -60px;
+    left: 20px;
+    line-height: 1;
+    pointer-events: none;
+    font-weight: 900;
+  }
+  .featured-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .featured-article-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--black);
+    margin-bottom: 20px;
+    position: relative;
+    letter-spacing: -0.02em;
+  }
+  .featured-article-excerpt {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--gray);
+    position: relative;
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+  .read-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--orange);
+    text-decoration: none;
+    position: relative;
+    transition: gap 0.2s;
+  }
+  .read-link:hover { gap: 16px; }
+  .read-link::after {
+    content: '→';
+    font-size: 16px;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid var(--rule);
+  }
+  .stat {
+    padding: 40px 40px;
+    border-right: 1px solid var(--rule);
+    text-align: center;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--black);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-num span { color: var(--orange); }
+  .stat-label {
+    font-size: 12px;
+    color: var(--gray);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 60px 48px 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .section-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── ARTICLES GRID ── */
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--rule);
+  }
+  .article-card {
+    padding: 48px 40px;
+    border-right: 1px solid var(--rule);
+    position: relative;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .article-card:last-child { border-right: none; }
+  .article-card:hover { background: var(--light); }
+  .article-card::after {
+    content: '→';
+    position: absolute;
+    bottom: 48px;
+    right: 40px;
+    font-size: 18px;
+    color: var(--orange);
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    transform: translateX(-8px);
+  }
+  .article-card:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .card-issue {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--black);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+  .card-excerpt {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--gray);
+    font-weight: 300;
+  }
+  .card-meta {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: #B0A99F;
+    text-transform: uppercase;
+  }
+
+  /* ── FEATURED WIDE CARD ── */
+  .featured-wide {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--rule);
+    background: var(--black);
+    color: white;
+  }
+  .featured-wide-content {
+    padding: 64px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .featured-wide-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .featured-wide-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .featured-wide-excerpt {
+    font-size: 15px;
+    line-height: 1.75;
+    color: #A09890;
+    font-weight: 300;
+    margin-bottom: 36px;
+  }
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+    width: fit-content;
+  }
+  .btn-outline:hover {
+    border-color: var(--orange);
+    background: var(--orange);
+  }
+  .featured-wide-visual {
+    background: var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .featured-wide-visual::before {
+    content: '$';
+    font-family: 'Playfair Display', serif;
+    font-size: 280px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.15);
+    position: absolute;
+    line-height: 1;
+  }
+  .visual-text {
+    position: relative;
+    text-align: center;
+  }
+  .visual-text p {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: white;
+    line-height: 1.5;
+    max-width: 280px;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-it-works {
+    background: var(--light);
+    padding: 80px 48px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hiw-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: var(--black);
+    margin-bottom: 60px;
+    max-width: 500px;
+    line-height: 1.05;
+  }
+  .hiw-header em { color: var(--orange); font-style: italic; }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .step {
+    padding: 40px 40px 40px 0;
+    border-right: 1px solid var(--rule);
+    padding-right: 48px;
+    margin-right: 48px;
+  }
+  .step:last-child {
+    border-right: none;
+    margin-right: 0;
+    padding-right: 0;
+  }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--rule);
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+  .step-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--gray);
+    font-weight: 300;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials {
+    padding: 0;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .testimonial {
+    padding: 56px 48px;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+  .testimonial:last-child { border-right: none; }
+  .testimonial::before {
+    content: '❝';
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    color: var(--orange);
+    display: block;
+    margin-bottom: 20px;
+    line-height: 1;
+  }
+  .testimonial-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--black);
+    margin-bottom: 24px;
+  }
+  .testimonial-author {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+  .testimonial-author span {
+    display: block;
+    color: var(--orange);
+    margin-top: 4px;
+  }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    padding: 100px 48px;
+    text-align: center;
+    background: var(--black);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: 'LAST BROKE DAY';
+    font-family: 'Playfair Display', serif;
+    font-size: 180px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -0.04em;
+  }
+  .cta-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .cta-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cta-sub {
+    font-size: 17px;
+    color: #8A8278;
+    font-weight: 300;
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .cta-form {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    max-width: 480px;
+    margin: 0 auto 20px;
+    position: relative;
+  }
+  .cta-form input {
+    flex: 1;
+    padding: 18px 24px;
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-right: none;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 0;
+  }
+  .cta-form input:focus { border-color: var(--orange); }
+  .cta-form input::placeholder { color: #6B6460; }
+  .cta-form button {
+    padding: 18px 32px;
+    background: var(--orange);
+    border: 1.5px solid var(--orange);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 0;
+  }
+  .cta-form button:hover { background: var(--orange-dark); border-color: var(--orange-dark); }
+  .cta-fine {
+    font-size: 12px;
+    color: #5A5450;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.06em;
+    position: relative;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #5A5450;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: white;
+    letter-spacing: -0.02em;
+  }
+  .footer-logo span { color: var(--orange); }
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 12px;
+    color: #5A5450;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--orange); }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── SUCCESS STATE ── */
+  .success-msg {
+    display: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--orange);
+    margin-top: 12px;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 60px 24px; border-right: none; border-bottom: 1px solid var(--rule); }
+    .hero-right { padding: 48px 24px; }
+    .hero-right::before { font-size: 180px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .stat { padding: 28px 24px; }
+    .articles-grid { grid-template-columns: 1fr; }
+    .article-card { border-right: none; border-bottom: 1px solid var(--rule); }
+    .featured-wide { grid-template-columns: 1fr; }
+    .featured-wide-visual { display: none; }
+    .steps { grid-template-columns: 1fr; gap: 40px; }
+    .step { border-right: none; border-bottom: 1px solid var(--rule); padding: 0 0 40px 0; margin: 0; }
+    .testimonials { grid-template-columns: 1fr; }
+    .testimonial { border-right: none; border-bottom: 1px solid var(--rule); }
+    .section-header { padding: 40px 24px 28px; }
+    .how-it-works { padding: 60px 24px; }
+    .cta-section { padding: 72px 24px; }
+    footer { flex-direction: column; gap: 24px; text-align: center; padding: 40px 24px; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span>FREE EVERY TUESDAY</span>
+    <span>•</span>
+    <span>PRACTICAL MONEY ADVICE FOR REAL PEOPLE</span>
+    <span>•</span>
+    <span>NO JARGON. NO FLUFF.</span>
+    <span>•</span>
+    <span>LASTBROKEDAY.COM</span>
+    <span>•</span>
+    <span>FREE EVERY TUESDAY</span>
+    <span>•</span>
+    <span>PRACTICAL MONEY ADVICE FOR REAL PEOPLE</span>
+    <span>•</span>
+    <span>NO JARGON. NO FLUFF.</span>
+    <span>•</span>
+    <span>LASTBROKEDAY.COM</span>
+    <span>•</span>
+    <span>FREE EVERY TUESDAY</span>
+    <span>•</span>
+    <span>PRACTICAL MONEY ADVICE FOR REAL PEOPLE</span>
+    <span>•</span>
+    <span>NO JARGON. NO FLUFF.</span>
+    <span>•</span>
+    <span>LASTBROKEDAY.COM</span>
+    <span>•</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Last<span>Broke</span>Day</a>
+  <ul class="nav-links">
+    <li><a href="#articles">Issues</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#subscribe" class="nav-cta">Subscribe Free</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-issue-tag">Weekly Newsletter · Free Forever</div>
+    <h1 class="hero-headline">
+      Tired of being <em>broke</em> every month?
+    </h1>
+    <p class="hero-sub">
+      Last Broke Day is a free weekly newsletter with one honest, practical money tip every Tuesday. No jargon. No lectures. Just the stuff that actually works when you're starting from zero.
+    </p>
+    <form class="hero-form" onsubmit="handleSubscribe(event, 'hero-success')">
+      <input type="email" placeholder="Your email address" required autocomplete="email">
+      <button type="submit">Join Free</button>
+    </form>
+    <p class="success-msg" id="hero-success">Redirecting to sign up... ✓</p>
+    <p class="hero-trust">FREE · NO SPAM · UNSUBSCRIBE ANYTIME</p>
+  </div>
+  <div class="hero-right">
+    <div class="featured-label">Latest Issue</div>
+    <h2 class="featured-article-title">The Real Reason You're Still Broke (It's Not What You Think)</h2>
+    <p class="featured-article-excerpt">Most people aren't broke because they spend too much. They're broke because they never decide where their money is going before it disappears. There's a big difference between those two things — and fixing the wrong one is why most budgets fail.</p>
+    <a href="#articles" class="read-link">Read Issue #1</a>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat fade-up">
+    <div class="stat-num">1<span>x</span></div>
+    <div class="stat-label">Issue every Tuesday</div>
+  </div>
+  <div class="stat fade-up" style="transition-delay:0.1s">
+    <div class="stat-num"><span>$</span>0</div>
+    <div class="stat-label">Always free</div>
+  </div>
+  <div class="stat fade-up" style="transition-delay:0.2s">
+    <div class="stat-num">5<span>min</span></div>
+    <div class="stat-label">Read time</div>
+  </div>
+  <div class="stat fade-up" style="transition-delay:0.3s">
+    <div class="stat-num">0<span>bs</span></div>
+    <div class="stat-label">Zero fluff policy</div>
+  </div>
+</div>
+
+<!-- ARTICLES -->
+<div id="articles">
+  <div class="section-header">
+    <span class="section-title">Recent Issues</span>
+    <div class="section-line"></div>
+    <span class="section-count">Issue #1–3</span>
+  </div>
+
+  <div class="articles-grid">
+    <div class="article-card fade-up">
+      <div class="card-issue">Issue #01 · Mar 2026</div>
+      <h3 class="card-title">The Real Reason You're Still Broke (It's Not What You Think)</h3>
+      <p class="card-excerpt">Most people don't have a spending problem. They have a direction problem. Here's the difference — and the simple fix that actually changes things.</p>
+      <div class="card-meta">5 min read · Zero-based budgeting</div>
+    </div>
+    <div class="article-card fade-up" style="transition-delay:0.1s">
+      <div class="card-issue">Issue #02 · Coming Soon</div>
+      <h3 class="card-title">The $1,000 Emergency Fund: Why This Number and How to Get There Fast</h3>
+      <p class="card-excerpt">Before you pay off debt aggressively, you need this one thing in place. Without it, every unexpected expense sends you back to square one.</p>
+      <div class="card-meta">6 min read · Emergency savings</div>
+    </div>
+    <div class="article-card fade-up" style="transition-delay:0.2s">
+      <div class="card-issue">Issue #03 · Coming Soon</div>
+      <h3 class="card-title">The Minimum Payment Trap (And Exactly How to Escape It)</h3>
+      <p class="card-excerpt">Credit card minimum payments are engineered to keep you paying forever. Here's the math they don't show you — and the one change that cuts years off your debt.</p>
+      <div class="card-meta">7 min read · Debt payoff</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURED WIDE -->
+<div class="featured-wide fade-up">
+  <div class="featured-wide-content">
+    <div class="featured-wide-tag">Most Read</div>
+    <h2 class="featured-wide-title">You're not bad with money. You just never got shown how it works.</h2>
+    <p class="featured-wide-excerpt">Nobody teaches personal finance in school. Your parents probably didn't talk about it. And the internet is full of advice written by people who already have money. Last Broke Day exists to fix that — one Tuesday at a time.</p>
+    <a href="https://michaels-newsletter-fa6a0a.beehiiv.com" target="_blank" class="btn-outline">Start Reading Free →</a>
+  </div>
+  <div class="featured-wide-visual">
+    <div class="visual-text">
+      <p>"Every dollar needs a job before you spend it."</p>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div id="about" class="how-it-works">
+  <h2 class="hiw-header">Simple money advice that <em>actually</em> works.</h2>
+  <div class="steps">
+    <div class="step fade-up">
+      <div class="step-num">01</div>
+      <h3 class="step-title">Subscribe Free</h3>
+      <p class="step-body">Enter your email and you're in. No credit card, no trial period, no catch. Last Broke Day has been free since day one and always will be.</p>
+    </div>
+    <div class="step fade-up" style="transition-delay:0.15s">
+      <div class="step-num">02</div>
+      <h3 class="step-title">Read Every Tuesday</h3>
+      <p class="step-body">One topic, one email, five minutes to read. Each issue covers something specific — budgeting, debt, savings, income — with real advice you can use that same day.</p>
+    </div>
+    <div class="step fade-up" style="transition-delay:0.3s">
+      <div class="step-num">03</div>
+      <h3 class="step-title">Do One Thing</h3>
+      <p class="step-body">Every issue ends with one concrete action. Not a to-do list. Just the single most important thing to do this week. Small moves, done consistently, change everything.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testimonials">
+  <div class="testimonial fade-up">
+    <p class="testimonial-text">I've tried every budgeting app out there. This newsletter explained the actual problem in five minutes. I found $380 I didn't know I was wasting in the first week.</p>
+    <div class="testimonial-author">
+      Amanda R.
+      <span>Madison, WI</span>
+    </div>
+  </div>
+  <div class="testimonial fade-up" style="transition-delay:0.1s">
+    <p class="testimonial-text">Nobody talks about money like a real person. No condescending advice about lattes. Just honest, practical stuff that works when you're actually struggling.</p>
+    <div class="testimonial-author">
+      DeShawn M.
+      <span>Chicago, IL</span>
+    </div>
+  </div>
+  <div class="testimonial fade-up" style="transition-delay:0.2s">
+    <p class="testimonial-text">I forwarded Issue #1 to my sister and she called me the next day. She'd already found $200 in subscriptions she forgot she had. We're both subscribers now.</p>
+    <div class="testimonial-author">
+      Priya K.
+      <span>Minneapolis, MN</span>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section id="subscribe" class="cta-section">
+  <div class="cta-eyebrow">Join thousands of readers</div>
+  <h2 class="cta-headline">Make this your<br>last broke day.</h2>
+  <p class="cta-sub">Free. Every Tuesday. One honest money tip.<br>No spam, no upsells, no nonsense.</p>
+  <form class="cta-form" onsubmit="handleSubscribe(event, 'cta-success')">
+    <input type="email" placeholder="Your email address" required autocomplete="email">
+    <button type="submit">Subscribe Free</button>
+  </form>
+  <p class="success-msg" id="cta-success">Redirecting to sign up... ✓</p>
+  <p class="cta-fine">FREE · UNSUBSCRIBE ANYTIME · NO SPAM · EVER</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Last<span>Broke</span>Day</div>
+  <ul class="footer-links">
+    <li><a href="#articles">Issues</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#subscribe">Subscribe</a></li>
+    <li><a href="#">Privacy</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Last Broke Day · Madison, WI</div>
+</footer>
+
+<script>
+  // Fade-up on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Subscribe form handler
+  function handleSubscribe(e, successId) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button');
+    const success = document.getElementById(successId);
+    btn.textContent = 'Taking you there...';
+    btn.style.background = '#C44D00';
+    success.style.display = 'block';
+    setTimeout(() => {
+      window.open('https://michaels-newsletter-fa6a0a.beehiiv.com', '_blank');
+    }, 600);
+  }
+</script>
+
+</body>
+</html>
